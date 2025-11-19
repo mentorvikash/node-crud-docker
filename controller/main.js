@@ -47,27 +47,43 @@
 
 // ============= Creating dynamic (multiple workers)
 
+// const { Worker } = require("worker_threads")
+
+// function runWorkerTask(n) {
+//     return new Promise((resolve, reject) => {
+//         const worker = new Worker("./worker.js", {
+//             workerData: n
+//         });
+
+//         worker.on("message", resolve)
+//         worker.on("error", reject)
+//     })
+// }
+
+
+// (async () => {
+//     console.time("parallel")
+//     const result = await Promise.all([
+//         runWorkerTask(35),
+//         runWorkerTask(37),
+//         runWorkerTask(41),
+//     ]);
+//     console.log("result", result)
+//     console.timeEnd("parallel")
+// })()
+
+
+// worker thread + shared memory
+
 const { Worker } = require("worker_threads")
 
-function runWorkerTask(n) {
-    return new Promise((resolve, reject) => {
-        const worker = new Worker("./worker.js", {
-            workerData: n
-        });
+const shared = new SharedArrayBuffer(4);
+const arr = new Int32Array(shared)
 
-        worker.on("message", resolve)
-        worker.on("error", reject)
-    })
-}
+const worker = new Worker("./worker.js", {
+    workerData: shared
+})
 
-
-(async () => {
-    console.time("parallel")
-    const result = await Promise.all([
-        runWorkerTask(35),
-        runWorkerTask(37),
-        runWorkerTask(41),
-    ]);
-    console.log("result", result)
-    console.timeEnd("parallel")
-})()
+worker.on("exit", () => {
+    console.log("Final value", arr[0])
+})

@@ -30,3 +30,13 @@
 
 // parentPort.postMessage(fibo(workerData))
 
+// Worker thread + shared memory
+
+const { workerData } = require("worker_threads")
+
+const arr = new Int32Array(workerData)
+
+for (let i = 0; i < 10000000; i++) {
+    Atomics.add(arr, 0, 1)
+}
+

@@ -116,24 +116,44 @@
 
 // Fast processing to large json data and filter
 
+// const { Worker } = require("worker_threads")
+
+// const worker = new Worker("./worker.js");
+
+// worker.postMessage({
+//     users: [
+//         { name: "vikash", age: 26 },
+//         { name: "jain", age: 21 },
+//         { name: "kajol", age: 15 },
+//         { name: "priya", age: 14 },
+//     ]
+// })
+
+// worker.on("message", (result) => {
+//     console.log("list of adults", JSON.stringify(result, null, 2))
+// })
+
+// worker.on("exit", (code) => {
+//     console.log("exit with following code: ", code)
+// })
+
+
+
+// Passwork Hashing (bcrypt cpu-heavy)
 const { Worker } = require("worker_threads")
 
 const worker = new Worker("./worker.js");
 
-worker.postMessage({
-    users: [
-        { name: "vikash", age: 26 },
-        { name: "jain", age: 21 },
-        { name: "kajol", age: 15 },
-        { name: "priya", age: 14 },
-    ]
+worker.postMessage("may secret passwork");
+
+worker.on("message", (hash) => {
+    console.log("Encrypted password: ", hash)
 })
 
-worker.on("message", (result) => {
-    console.log("list of adults", JSON.stringify(result, null, 2))
+worker.on("error", (err) => {
+    console.log("error from worker: ", err.message)
 })
 
 worker.on("exit", (code) => {
-    console.log("exit with following code: ", code)
+    console.log("exit code from worker: ", code)
 })
-

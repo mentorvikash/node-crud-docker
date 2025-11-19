@@ -54,9 +54,21 @@
 
 // Fast processing to large json data and filter
 
-const { parentPort } = require("worker_threads")
+// const { parentPort } = require("worker_threads")
 
-parentPort.on("message", ({ users }) => {
-    const adults = users.filter(el => el.age >= 18);
-    parentPort.postMessage(adults)
+// parentPort.on("message", ({ users }) => {
+//     const adults = users.filter(el => el.age >= 18);
+//     parentPort.postMessage(adults)
+// })
+
+
+
+// Passwork Hashing (bcrypt cpu-heavy)
+
+const { parentPort } = require("worker_threads")
+const bcrypt = require("bcryptjs")
+
+parentPort.on("message", async (password) => {
+    const encryptedPassword = await bcrypt.hash(password, 10);
+    parentPort.postMessage(encryptedPassword)
 })

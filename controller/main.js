@@ -115,3 +115,25 @@
 // main()
 
 // Fast processing to large json data and filter
+
+const { Worker } = require("worker_threads")
+
+const worker = new Worker("./worker.js");
+
+worker.postMessage({
+    users: [
+        { name: "vikash", age: 26 },
+        { name: "jain", age: 21 },
+        { name: "kajol", age: 15 },
+        { name: "priya", age: 14 },
+    ]
+})
+
+worker.on("message", (result) => {
+    console.log("list of adults", JSON.stringify(result, null, 2))
+})
+
+worker.on("exit", (code) => {
+    console.log("exit with following code: ", code)
+})
+

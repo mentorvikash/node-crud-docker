@@ -54,3 +54,9 @@
 
 // Fast processing to large json data and filter
 
+const { parentPort } = require("worker_threads")
+
+parentPort.on("message", ({ users }) => {
+    const adults = users.filter(el => el.age >= 18);
+    parentPort.postMessage(adults)
+})

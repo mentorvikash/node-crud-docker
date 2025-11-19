@@ -32,11 +32,25 @@
 
 // Worker thread + shared memory
 
-const { workerData } = require("worker_threads")
+// const { workerData } = require("worker_threads")
 
-const arr = new Int32Array(workerData)
+// const arr = new Int32Array(workerData)
 
-for (let i = 0; i < 10000000; i++) {
-    Atomics.add(arr, 0, 1)
-}
+// for (let i = 0; i < 10000000; i++) {
+//     Atomics.add(arr, 0, 1)
+// }
+
+
+// Practical real world
+
+// const { parentPort, workerData } = require('worker_threads')
+
+// const { numbers } = workerData
+
+// const result = numbers.map(num => num * 10)
+
+// parentPort.postMessage(result)
+
+
+// Fast processing to large json data and filter
 

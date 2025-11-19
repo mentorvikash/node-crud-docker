@@ -75,15 +75,43 @@
 
 // worker thread + shared memory
 
-const { Worker } = require("worker_threads")
+// const { Worker } = require("worker_threads")
 
-const shared = new SharedArrayBuffer(4);
-const arr = new Int32Array(shared)
+// const shared = new SharedArrayBuffer(4);
+// const arr = new Int32Array(shared)
 
-const worker = new Worker("./worker.js", {
-    workerData: shared
-})
+// const worker = new Worker("./worker.js", {
+//     workerData: shared
+// })
 
-worker.on("exit", () => {
-    console.log("Final value", arr[0])
-})
+// worker.on("exit", () => {
+//     console.log("Final value", arr[0])
+// })
+
+
+// real world complex example
+
+// const { Worker } = require("worker_threads")
+
+// async function runTask(data) {
+//     return new Promise((resolve, reject) => {
+//         const worker = new Worker("./worker.js", {
+//             workerData: data
+//         })
+
+//         worker.on("message", resolve)
+//         worker.on("error", reject)
+//     })
+// }
+
+// async function main() {
+//     console.log("api received request, processed in worker")
+
+//     const result = await runTask({ numbers: [1, 2, 3, 4, 5] })
+
+//     console.log("result", result)
+// }
+
+// main()
+
+// Fast processing to large json data and filter

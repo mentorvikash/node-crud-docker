@@ -49,7 +49,6 @@
 
 const { Worker } = require("worker_threads")
 
-
 function runWorkerTask(n) {
     return new Promise((resolve, reject) => {
         const worker = new Worker("./worker.js", {
